@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -24,6 +26,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final ScrollController _scrollController = ScrollController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   bool isMobile = false;
   bool isTablet = false;
   bool isDesktop = false;
@@ -36,6 +40,7 @@ class _HomePageState extends State<HomePage> {
     });
     _scrollController.addListener(() {
       pos = _scrollController.position.pixels.round();
+      log("POS : -> $pos");
       setState(() {});
     });
   }
@@ -51,17 +56,14 @@ class _HomePageState extends State<HomePage> {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth < 600) {
-          // Mobile layout
           isMobile = true;
           isTablet = false;
           isDesktop = false;
-        } else if (constraints.maxWidth >= 600 && constraints.maxWidth < 950) {
-          // Tablet layout
+        } else if (constraints.maxWidth >= 601 && constraints.maxWidth < 950) {
           isMobile = false;
           isTablet = true;
           isDesktop = false;
         } else {
-          // Desktop layout
           isMobile = false;
           isTablet = false;
           isDesktop = true;
@@ -69,11 +71,19 @@ class _HomePageState extends State<HomePage> {
 
         return SafeArea(
           child: Scaffold(
+              key: _scaffoldKey,
               backgroundColor: const Color(0xFFFFF1E5),
+              drawer: isMobile
+                  ? Drawer(
+                      backgroundColor: kPromaryColor,
+                      child: buildDrawer(),
+                    )
+                  : null,
               appBar: AppBar(
+                toolbarHeight: isMobile ? 68 : 177,
                 title: Container(
                   color: kPromaryColor,
-                  height: 177,
+                  height: isMobile ? 68 : 177,
                   width: double.infinity,
                   child: Row(
                     children: [
@@ -89,8 +99,8 @@ class _HomePageState extends State<HomePage> {
                                 child: Align(
                                   alignment: Alignment.bottomLeft,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: 22, left: 52),
+                                    padding: EdgeInsets.only(
+                                        left: isMobile ? 0 : 52, bottom: 15),
                                     child: Text(
                                       'YN CLASSHOUSE',
                                       textScaleFactor: 1,
@@ -108,6 +118,7 @@ class _HomePageState extends State<HomePage> {
                               if (isTablet) ...{
                                 Expanded(
                                     child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     buildAppBarAction(),
@@ -121,11 +132,6 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      if (isMobile)
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.menu),
-                        ),
                       if (isDesktop) ...{
                         Align(
                           alignment: Alignment.bottomRight,
@@ -141,24 +147,32 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.zero,
                 controller: _scrollController,
                 children: [
-                  // Your content sections
                   HomeSection(
                     isDesktop: isDesktop,
                     isMobile: isMobile,
                     isTablet: isTablet,
-                    pos: pos,
                   ),
+                   DotWidget(pageCount: 1,isMobile: isMobile,),
                   const DividerWidget(),
-                  const Academices(),
+                  Academices(
+                    isMobile: isMobile,
+                  ),
+                   DotWidget(pageCount: 2,isMobile: isMobile,),
                   const DividerWidget(),
-                  const Testimonials(),
-                  const DotWidget(pageCount: 3),
+                  Testimonials(
+                    isMobile: isMobile,
+                  ),
+                   DotWidget(pageCount: 3,isMobile: isMobile,),
                   const DividerWidget(),
-                  const AboutSection(),
-                  const DotWidget(pageCount: 4),
+                  AboutSection(
+                    isMobile: isMobile,
+                  ),
+                   DotWidget(pageCount: 4,isMobile: isMobile,),
                   const DividerWidget(),
-                  const ContactUsPage(),
-                  const DotWidget(pageCount: 5),
+                  ContactUsPage(
+                    isMobile: isMobile,
+                  ),
+                   DotWidget(pageCount: 5,isMobile: isMobile,),
                   const FooterPage(),
                 ],
               )),
@@ -187,23 +201,103 @@ class _HomePageState extends State<HomePage> {
               }),
             ),
             UnderlinedTextButton(
-              item: Item("ACADEMICS", pos > 628 && pos <= 2100, () {
-                _scrollToSection(632);
+              item: Item("ACADEMICS", pos > 628 && pos <= 2239, () {
+                _scrollToSection(650);
               }),
             ),
             UnderlinedTextButton(
-              item: Item("TESTIMONIALS", pos > 2100 && pos <= 2675, () {
-                _scrollToSection(2100);
+              item: Item("TESTIMONIALS", pos > 2239 && pos <= 3038, () {
+                _scrollToSection(2240);
               }),
             ),
-            UnderlinedTextButton(
-              item: Item("ABOUT", pos > 2675 && pos <= 3400, () {
-                _scrollToSection(4045);
-              }),
+            if (isDesktop) ...{
+              UnderlinedTextButton(
+                item: Item("ABOUT", pos > 3038 && pos < 4292, () {
+                  _scrollToSection(3038);
+                }),
+              )
+            },
+            if (isTablet) ...{
+              UnderlinedTextButton(
+                item: Item("ABOUT", pos > 3038 && pos < 4805, () {
+                  _scrollToSection(3038);
+                }),
+              )
+            },
+            if (isDesktop) ...{
+              UnderlinedTextButton(
+                item: Item("CONTACT US", pos > 4292, () {
+                  _scrollToSection(4292);
+                }),
+              ),
+            },
+            if (isTablet) ...{
+              UnderlinedTextButton(
+                item: Item("CONTACT US", pos > 4805, () {
+                  _scrollToSection(4805);
+                }),
+              ),
+            },
+            if (isMobile) ...{
+              UnderlinedTextButton(
+                item: Item("CONTACT US", pos > 5775, () {
+                  _scrollToSection(5775);
+                }),
+              ),
+            }
+          ],
+        ),
+      );
+
+  Widget buildDrawer() => Container(
+        height: 52,
+        margin: const EdgeInsets.only(right: 52),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 56,
             ),
             UnderlinedTextButton(
-              item: Item("CONTACT US", pos > 3400 && pos <= 4834, () {
-                _scrollToSection(3400);
+              item: Item("HOME", pos <= 602, () {
+                _scrollToSection(0);
+                _scaffoldKey.currentState?.openEndDrawer();
+              }),
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            UnderlinedTextButton(
+              item: Item("ACADEMICS", pos > 628 && pos <= 2239, () {
+                _scrollToSection(650);
+                _scaffoldKey.currentState?.openEndDrawer();
+              }),
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            UnderlinedTextButton(
+              item: Item("TESTIMONIALS", pos > 2239 && pos <= 3038, () {
+                _scrollToSection(2240);
+                _scaffoldKey.currentState?.openEndDrawer();
+              }),
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            UnderlinedTextButton(
+              item: Item("ABOUT", pos > 3038 && pos < 4805, () {
+                _scrollToSection(3038);
+                _scaffoldKey.currentState?.openEndDrawer();
+              }),
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            UnderlinedTextButton(
+              item: Item("CONTACT US", pos > 5775, () {
+                _scrollToSection(5775);
+                _scaffoldKey.currentState?.openEndDrawer();
               }),
             ),
           ],
@@ -215,24 +309,24 @@ class HomeSection extends StatelessWidget {
   final bool isMobile;
   final bool isTablet;
   final bool isDesktop;
-  final int pos;
-  const HomeSection(
-      {super.key,
-      required this.isMobile,
-      required this.isTablet,
-      required this.isDesktop,
-      required this.pos});
+
+  const HomeSection({
+    super.key,
+    required this.isMobile,
+    required this.isTablet,
+    required this.isDesktop,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 622,
+      height: 500,
       child: Stack(
         children: [
           Column(
             children: [
               Container(
-                height: 622,
+                height: 500,
                 color: const Color(0xFFFFF1E5),
                 child: Stack(
                   children: [
@@ -257,8 +351,6 @@ class HomeSection extends StatelessWidget {
               ),
             ],
           ),
-          const Align(
-              alignment: Alignment.bottomLeft, child: DotWidget(pageCount: 1))
         ],
       ),
     );

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ContactUsPage extends StatelessWidget {
-  const ContactUsPage({super.key});
+  final bool isMobile;
+  const ContactUsPage({super.key, required this.isMobile});
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +31,19 @@ class ContactUsPage extends StatelessWidget {
             ),
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(51),
+              padding: isMobile
+                  ? const EdgeInsets.all(21)
+                  : const EdgeInsets.all(51),
               color: Colors.white.withOpacity(0.67),
               child: AutoSizeText(
                 about,
-                maxLines: 4,
-                stepGranularity: 4,
+                stepGranularity: 3,
+                softWrap: true,
+                maxLines: 15,
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.lato(
                   color: Colors.black,
-                  fontSize: 24,
+                  fontSize: isMobile ? 14 : 24,
                   height: 1.8,
                   letterSpacing: 1.5,
                   fontWeight: FontWeight.w300,
@@ -52,7 +56,7 @@ class ContactUsPage extends StatelessWidget {
 }
 
 const about = '''
-We're thrilled that you're interested in our ‘YNClasshouse’  for children! If you
+We're thrilled that you're interested in our ‘YN Classhouse’  for children! If you
 have any questions, suggestions, or concerns, please feel free to reach out to
 us. We are here to assist you and ensure the best learning experience for your
 child.

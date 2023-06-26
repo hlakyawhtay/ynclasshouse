@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:ynclasshouse/home/controller.dart';
-import 'package:ynclasshouse/home/dot_widget.dart';
 
 final List<String> strs = [str1, str2];
 final List<String> imgs = ['images/pngs/exp1.png', 'images/pngs/exp2.png'];
 final List<String> names = ['U Yan Naing Soe', 'U Kyaw Htay'];
 
 class Testimonials extends StatelessWidget {
-  const Testimonials({super.key});
+  final bool isMobile;
+  const Testimonials({super.key, required this.isMobile});
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +25,11 @@ class Testimonials extends StatelessWidget {
           const SizedBox(
             height: 51,
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 51),
-            child: Text(
+          Padding(
+            padding: isMobile
+                ? const EdgeInsets.only(left: 21)
+                : const EdgeInsets.only(left: 51),
+            child: const Text(
               'TESTIMONIALS',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -44,7 +46,9 @@ class Testimonials extends StatelessWidget {
           SizedBox(
             height: 519,
             child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 51),
+              padding: isMobile
+                  ? const EdgeInsets.symmetric(horizontal: 21)
+                  : const EdgeInsets.symmetric(horizontal: 51),
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: 2,

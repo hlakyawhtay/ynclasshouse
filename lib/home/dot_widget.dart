@@ -3,13 +3,14 @@ import 'package:ynclasshouse/consts/colors.dart';
 
 class DotWidget extends StatelessWidget {
   final int pageCount;
-  const DotWidget({super.key, required this.pageCount});
+  final bool isMobile;
+  const DotWidget({super.key, required this.pageCount, required this.isMobile});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 22,
-      margin: const EdgeInsets.all(53),
+      margin: isMobile ? const EdgeInsets.all(21) : const EdgeInsets.all(51),
       child: ListView.builder(
           padding: EdgeInsets.zero,
           scrollDirection: Axis.horizontal,

@@ -1,5 +1,5 @@
 name: ynclasshouse
-description: A new Flutter project.
+description: English learning center for young learner in myanmar
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -25,7 +25,6 @@ dependencies:
   provider: ^6.0.5
   auto_size_text: ^3.0.0
   url_launcher: ^6.1.11
-  seo_renderer: ^0.6.0
 
 dev_dependencies:
   flutter_test:

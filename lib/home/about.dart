@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AboutSection extends StatelessWidget {
-  const AboutSection({super.key});
+  final bool isMobile;
+  const AboutSection({super.key, required this.isMobile});
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +28,18 @@ class AboutSection extends StatelessWidget {
             ),
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(51),
+              padding: isMobile
+                  ? const EdgeInsets.all(21)
+                  : const EdgeInsets.all(51),
               color: Colors.white.withOpacity(0.67),
               child: AutoSizeText(
                 about,
-                stepGranularity: 4,
-                maxLines: 12,
+                stepGranularity: 3,
                 style: GoogleFonts.lato(
                   color: Colors.black,
-                  fontSize: 24,
+                  fontSize: isMobile ? 12 : 24,
                   height: 1.5,
-                  letterSpacing: 2,
+                  letterSpacing: 1.5,
                   fontWeight: FontWeight.w300,
                 ),
               ),

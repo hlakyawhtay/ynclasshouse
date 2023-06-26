@@ -4,10 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ynclasshouse/consts/colors.dart';
 
-import 'dot_widget.dart';
-
 class Academices extends StatelessWidget {
-  const Academices({super.key});
+  final bool isMobile;
+  const Academices({super.key, required this.isMobile});
 
   @override
   Widget build(BuildContext context) {
@@ -16,27 +15,39 @@ class Academices extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
+          mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(
               height: 51,
             ),
             Container(
-              margin: const EdgeInsets.only(left: 51),
-              child: const Text(
+              margin: EdgeInsets.only(left: isMobile ? 21 : 51),
+              child: Text(
                 'ACADEMIC',
                 style: TextStyle(
-                    fontSize: 32, fontFamily: 'Poirate', color: kPromaryColor),
+                    fontSize: isMobile ? 24 : 32,
+                    fontFamily: 'Poirate',
+                    color: kPromaryColor),
               ),
             ),
-            const SizedBox(
-              height: 51,
-            ),
+            if (isMobile) ...{
+              const SizedBox(
+                height: 21,
+              )
+            } else ...{
+              const SizedBox(
+                height: 51,
+              ),
+            },
             Container(
               color: Colors.white.withOpacity(0.67),
               width: double.infinity,
-              padding: const EdgeInsets.all(51),
-              margin: const EdgeInsets.symmetric(horizontal: 51),
+              padding: isMobile
+                  ? const EdgeInsets.all(21)
+                  : const EdgeInsets.all(51),
+              margin: isMobile
+                  ? const EdgeInsets.all(21)
+                  : const EdgeInsets.all(51),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -69,7 +80,7 @@ class Academices extends StatelessWidget {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Container(
@@ -90,10 +101,7 @@ class Academices extends StatelessWidget {
                           'Oxford Phonics Classes',
                           overflow: TextOverflow.ellipsis,
                           stepGranularity: 3,
-                          style: GoogleFonts.lato(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w300,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall,
                         )
                       ],
                     ),
@@ -121,54 +129,17 @@ class Academices extends StatelessWidget {
                         ),
                         Expanded(
                           child: AutoSizeText(
-                            'Preperation for Cambridge English',
+                            'Preperation for Cambridge English Qualifications Exams',
                             stepGranularity: 3,
                             textScaleFactor: 1,
                             softWrap: true,
-                            maxLines: 2,
-                            style: GoogleFonts.lato(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w300,
-                            ),
+                            maxLines: 3,
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                         )
                       ],
                     ),
-                    const SizedBox(
-                      height: 31,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 20,
-                          height: 20,
-                          decoration: const ShapeDecoration(
-                            color: Color(0xFF17594A),
-                            shape: OvalBorder(
-                              side: BorderSide(
-                                  width: 0.75, color: Color(0xFF17594A)),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        AutoSizeText(
-                          'Qualifications Exams',
-                          stepGranularity: 3,
-                          maxLines: 1,
-                          presetFontSizes: const [26, 18, 14],
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.lato(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        )
-                      ],
-                    ),
+
                     const SizedBox(
                       height: 31,
                     ),
@@ -194,13 +165,10 @@ class Academices extends StatelessWidget {
                         Expanded(
                           child: AutoSizeText(
                             'Cambridge International Curriculum (Math, English, Science)',
-                            maxLines: 2,
+                            maxLines: 3,
                             stepGranularity: 3,
                             overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.lato(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w300,
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                         )
                       ],
@@ -215,6 +183,16 @@ class Academices extends StatelessWidget {
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         children: [
+                          Image.asset(
+                            'images/pngs/leven One.jpeg',
+                            width: 190,
+                            height: 190,
+                          ),
+                          Image.asset(
+                            'images/pngs/level two.jpeg',
+                            width: 190,
+                            height: 190,
+                          ),
                           Image.asset(
                             'images/pngs/one.png',
                             width: 190,
@@ -286,11 +264,7 @@ class Academices extends StatelessWidget {
                             'Friday    - ( 5-PM To 6-PM )',
                             stepGranularity: 3,
                             maxLines: 2,
-                            style: GoogleFonts.lato(
-                              color: Colors.black,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w300,
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                         )
                       ],
@@ -312,11 +286,7 @@ class Academices extends StatelessWidget {
                             stepGranularity: 3,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.lato(
-                              color: Colors.black,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w300,
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                         )
                       ],
@@ -336,11 +306,7 @@ class Academices extends StatelessWidget {
                           '3 days in a week',
                           stepGranularity: 3,
                           maxLines: 2,
-                          style: GoogleFonts.lato(
-                            color: Colors.black,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w300,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall,
                         )
                       ],
                     ),
@@ -388,11 +354,7 @@ class Academices extends StatelessWidget {
                             maxLines: 2,
                             stepGranularity: 3,
                             overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.lato(
-                              color: Colors.black,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w300,
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
                         )
                       ],
@@ -433,13 +395,9 @@ class Academices extends StatelessWidget {
                           width: 12,
                         ),
                         AutoSizeText(
-                          '25,000 Kyat',
+                          '25,000 MMK',
                           stepGranularity: 3,
-                          style: GoogleFonts.lato(
-                            color: Colors.black,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w300,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall,
                         )
                       ],
                     ),
@@ -447,8 +405,6 @@ class Academices extends StatelessWidget {
                 ),
               ),
             ),
-            const Align(
-                alignment: Alignment.bottomLeft, child: DotWidget(pageCount: 2))
           ],
         ));
   }
